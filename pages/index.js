@@ -1,3 +1,6 @@
+// importing file system module from node. This will not be visible on client side
+import fs from "fs";
+
 function HomePage(props) {
   const { products } = props;
   return (
@@ -9,6 +12,7 @@ function HomePage(props) {
   );
 }
 
+// Code written inside getStaticProps() will not be executed on client side
 export async function getStaticProps() {
   return {
     props: {
