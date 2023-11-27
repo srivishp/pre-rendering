@@ -12,6 +12,7 @@ function ProdcutDetailPage() {
   );
 }
 
+//-> getStaticProps lets you fetch data at build time
 export async function getStaticProps(context) {
   const { params } = context;
 
@@ -27,6 +28,24 @@ export async function getStaticProps(context) {
     props: {
       loadedProduct: product,
     },
+  };
+}
+
+//# getStaticPaths lets you specify dynamic routes to pre-render pages based on data
+export async function getStaticPaths() {
+  return {
+    // pre generating page thrice
+    paths: [
+      {
+        params: { productId: "p1" },
+      },
+      {
+        params: { productId: "p2" },
+      },
+      {
+        params: { productId: "p3" },
+      },
+    ],
   };
 }
 
