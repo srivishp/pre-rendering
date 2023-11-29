@@ -26,7 +26,7 @@ export async function getStaticProps(context) {
   //* Gives the cwd of this file when it is executed
   //# cwd will be the root(main project folder) but not the pages folder
 
-  const filePath = path.join(process.cwd(), "data", "dummy-backend.js");
+  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
   const jsonData = await fs.readFile(filePath);
   // parse json into a regular object
   const data = JSON.parse(jsonData);
