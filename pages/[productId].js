@@ -3,9 +3,15 @@ import path from "path";
 
 function ProductDetailPage(props) {
   const { loadedProduct } = props;
+  /*
+# If fallback is set to blocking, we don't need this check
+# as Next JS will wait for the page to be pre-rendered on the server side
 
-  //# If fallback is set to blocking, we don't need this check
-  //# as Next JS will wait for the page to be pre-rendered on the server side
+? This is quite similar to fallback: true, except that it does not return the dummy loading page when a page that hasn't been cached is hit for the first time
+? Instead, it just makes the browser hang, until the page is rendered for the first time.
+? Future requests to that page are quickly served from the cache however, just like fallback: true.
+*/
+
   if (!loadedProduct) {
     return <p>Loading...</p>;
   }
