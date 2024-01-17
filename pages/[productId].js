@@ -43,6 +43,10 @@ export async function getStaticProps(context) {
 
   const product = data.products.find((product) => product.id === productId);
 
+  if (!product) {
+    return { notFound: true };
+  }
+
   return {
     props: {
       loadedProduct: product,
@@ -64,7 +68,7 @@ export async function getStaticPaths() {
 
     //-> Setting fallback to true allows other pages to be visited, but not pre-generated
     //? In the browser, loading of p1 is instant but p2 and p3 take time, with the "Loading..." screen briefly shown
-    fallback: false,
+    fallback: true,
   };
 }
 
