@@ -24,15 +24,22 @@ function ProductDetailPage(props) {
   );
 }
 
+async function getData() {
+  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
+
+  const jsonData = await fs.readFile(filePath);
+  const data = JSON.parse(jsonData);
+
+  return data;
+}
+
 //-> getStaticProps lets you fetch data at build time
 export async function getStaticProps(context) {
   const { params } = context;
 
   const productId = params.productId;
-  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
 
-  const jsonData = await fs.readFile(filePath);
-  const data = JSON.parse(jsonData);
+  const data = await getData();
 
   const product = data.products.find((product) => product.id === productId);
 
@@ -45,22 +52,19 @@ export async function getStaticProps(context) {
 
 //# getStaticPaths lets you specify dynamic routes to pre-render pages based on data
 export async function getStaticPaths() {
+  const data = await getData();
+  const ids = data.products.map((product) => product.id);
+
+  // ({}) because we are doing an inline return, and not creating a function body
+  const pathsWithParams = ids.map((id) => ({ params: { productId: id } }));
+
   return {
-    // pre generating page thrice
-    paths: [
-      {
-        params: { productId: "p1" },
-      },
-      // {
-      //   params: { productId: "p2" },
-      // },
-      // {
-      //   params: { productId: "p3" },
-      // },
-    ],
-    //-> Setting fallback to tru allows other pages to be visited, but not pre-generated
+    // pre generating all pages
+    paths: pathsWithParams,
+
+    //-> Setting fallback to true allows other pages to be visited, but not pre-generated
     //? In the browser, loading of p1 is instant but p2 and p3 take time, with the "Loading..." screen briefly shown
-    fallback: true,
+    fallback: false,
   };
 }
 
