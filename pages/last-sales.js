@@ -4,9 +4,9 @@ const { useEffect, useState } = require("react");
 
 function LastSalesPage() {
   const [sales, setSales] = useState();
-  const [loading, isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    isLoading(true);
+    setIsLoading(true);
     fetch(
       "https://client-side-fetching-nextjs-default-rtdb.asia-southeast1.firebasedatabase.app/sales.json"
     )
@@ -24,7 +24,7 @@ function LastSalesPage() {
         }
 
         setSales(transformedSales);
-        isLoading(false);
+        setIsLoading(false);
       });
   }, []);
 
@@ -40,7 +40,7 @@ function LastSalesPage() {
     <ul>
       {sales.map((sale) => (
         <li key={sale.id}>
-          {sale.username} - {sale.item} - ${sale.volume}
+          {sale.username} - {sale.item} - {sale.volume} units
         </li>
       ))}
     </ul>
