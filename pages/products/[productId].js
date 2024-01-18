@@ -33,6 +33,7 @@ async function getData() {
   return data;
 }
 
+//! getStaticProps and getServerSideProps are mutually exclusive and should not be used together (in most cases)
 //-> getStaticProps lets you fetch data at build time
 export async function getStaticProps(context) {
   const { params } = context;
@@ -59,7 +60,7 @@ export async function getStaticPaths() {
   const data = await getData();
   const ids = data.products.map((product) => product.id);
 
-  // ({}) because we are doing an inline return, and not creating a function body
+  // id => ({}) because we are doing an inline return, and not creating a function body
   const pathsWithParams = ids.map((id) => ({ params: { productId: id } }));
 
   return {
